@@ -22,6 +22,11 @@ API RESTful para crear usuarios utilizando Java 8+, Spring Framework, Hibernate 
 
 ## Request de ejemplo
 
+Los campos no pueden estar vacíos y además:
+
+1. El campo "email" debe ser un correo electrónico válido.
+2. El campo "password" debe contener una Mayuscula, letras minúsculas, y dos números.
+
 ```
 POST /api/users
 Content-Type: application/json
@@ -41,5 +46,19 @@ Content-Type: application/json
     ]
 }
 
+
+```
+
+# Response de ejemplo esperado 
+
+```json
+{
+  "id": 20,
+  "created": "2023-03-13T06:04:51",
+  "modified": "2023-03-13T06:04:51",
+  "lastLogin": "2023-03-13T06:04:51",
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJKaG9uIiwiaWF0IjoxNjc4Njg3NDkxLCJzdWIiOiJKaG9uQGdtYWlsLmNvbSIsImlzcyI6IlphbW1hIiwiZXhwIjoxNjc4NjkzNDkxfQ.NyZ6J1OaOKqaaQQZJRBMYaZ0qGWpU9Qp6TD8LUkR_bU",
+  "isActive": true
+}
 
 ```
