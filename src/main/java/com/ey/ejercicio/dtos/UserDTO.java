@@ -21,6 +21,7 @@ public class UserDTO {
     private String email;
 
     @NotEmpty(message = "Falta el campo password")
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d{2}).{6,}$", message = "La contraseña debe contener al menos una mayúscula, una minúscula y dos números.")
     private String password;
 
     @NotEmpty(message = "No pueden faltar teléfonos")

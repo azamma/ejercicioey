@@ -3,19 +3,22 @@ package com.ey.ejercicio.services;
 import com.ey.ejercicio.daos.UserDao;
 import com.ey.ejercicio.dtos.UserDTO;
 import com.ey.ejercicio.entities.User;
+import com.ey.ejercicio.utils.EncryptionUtils;
+import com.ey.ejercicio.utils.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.PersistenceException;
 import java.util.Date;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class UserService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private JWTUtil jwtUtil;
 
     public User saveUser(UserDTO userDTO) {
 
@@ -26,6 +29,11 @@ public class UserService {
         User user = new User();
         user = user.mapToUser(userDTO);
 
+        String encryptedPassword = user.getPassword();
+        String token = jwtUtil.create(user.getName(), user.getEmail());
+
+        user.setPassword(EncryptionUtils.encrypt(encryptedPassword));
+        user.setToken(token);
 
             userDao.save(user);
             return user;
