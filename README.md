@@ -1,6 +1,6 @@
 # API Ejercicio EY
 
-API RESTful para crear usuarios utilizando Java 8+, Spring Framework, Hibernate y una base de datos en memoria como HSQLDB o H2
+API RESTful para crear usuarios utilizando Java 8+, Spring Framework, Hibernate y una base de datos HSQLDB
 
 ## Tecnologías utilizadas
 
