@@ -48,7 +48,7 @@ public class UserExceptionHandler {
     @ExceptionHandler(PersistenceException.class)
     public ResponseEntity<ErrorResponse> handlePersistenceExceptions(PersistenceException ex) {
         ErrorResponse errorResponse = new ErrorResponse("Se produjo un error al crear el usuario -> ".concat(ex.getMessage()));
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
     /**
 
