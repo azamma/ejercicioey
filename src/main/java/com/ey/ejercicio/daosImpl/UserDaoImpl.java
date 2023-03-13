@@ -5,6 +5,8 @@ package com.ey.ejercicio.daosImpl;
 
 import com.ey.ejercicio.daos.UserDao;
 import com.ey.ejercicio.entities.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -20,6 +22,9 @@ public class UserDaoImpl implements UserDao {
     @PersistenceContext
     private EntityManager entityManager;
 
+    private static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
+
+
     /**
      * Guarda un nuevo usuario en la base de datos
      * @param user el usuario a guardar
@@ -27,7 +32,9 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public User save(User user) {
+        logger.info("Guardando usuario: {}", user);
         entityManager.persist(user);
+        logger.info("Usuario guardado exitosamente");
         return user;
     }
 

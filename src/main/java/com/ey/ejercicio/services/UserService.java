@@ -1,10 +1,13 @@
 package com.ey.ejercicio.services;
 
 import com.ey.ejercicio.daos.UserDao;
+import com.ey.ejercicio.daosImpl.UserDaoImpl;
 import com.ey.ejercicio.dtos.UserDTO;
 import com.ey.ejercicio.entities.User;
 import com.ey.ejercicio.utils.EncryptionUtils;
 import com.ey.ejercicio.utils.JWTUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +23,12 @@ public class UserService {
     @Autowired
     private JWTUtil jwtUtil;
 
+    private static final Logger logger = LogManager.getLogger(UserService.class);
+
     public User saveUser(UserDTO userDTO) {
 
         if (userDao.findByEmail(userDTO.getEmail()) != null) {
+            logger.info("Usuario ya registrado");
             throw new PersistenceException("El correo ya está registrado");
         }
 
