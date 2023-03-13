@@ -2,6 +2,7 @@ package com.ey.ejercicio.controllers;
 
 import com.ey.ejercicio.controllers.exceptions.ErrorResponse;
 import com.ey.ejercicio.dtos.UserDTO;
+import com.ey.ejercicio.dtos.UserResponseDTO;
 import com.ey.ejercicio.entities.User;
 import com.ey.ejercicio.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,9 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO) throws PersistenceException {
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO) {
         User usuarioCreado = userService.saveUser(userDTO);
-        return ResponseEntity.ok(usuarioCreado);
+        return ResponseEntity.ok(usuarioCreado.mapToUserResponseDTO());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -39,7 +40,19 @@ public class UserController {
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
-        ErrorResponse errorResponse = new ErrorResponse("Hay uno o más campos con errores");
+        ErrorResponse errorResponse = new ErrorResponse("Hay uno o más campos con errores -> ".concat(errors.toString()));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    @ExceptionHandler(PersistenceException.class)
+    public ResponseEntity<ErrorResponse> handlePersistenceExceptions(PersistenceException ex) {
+        ErrorResponse errorResponse = new ErrorResponse("Se produjo un error al crear el usuario -> ".concat(ex.getMessage()));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleExceptions(Exception ex) {
+        ErrorResponse errorResponse = new ErrorResponse("Se produjo un error inesperado -> ".concat(ex.getMessage()));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 }

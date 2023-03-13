@@ -26,12 +26,10 @@ public class UserService {
         User user = new User();
         user = user.mapToUser(userDTO);
 
-        try {
+
             userDao.save(user);
             return user;
-        } catch (Exception e) {
-            throw new PersistenceException(e.getMessage());
-        }
+
     }
 
     public User updateUser(User user) {

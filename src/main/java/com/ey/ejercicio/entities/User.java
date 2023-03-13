@@ -2,6 +2,7 @@ package com.ey.ejercicio.entities;
 
 import com.ey.ejercicio.dtos.PhoneDTO;
 import com.ey.ejercicio.dtos.UserDTO;
+import com.ey.ejercicio.dtos.UserResponseDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -47,20 +48,37 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Phone> phones;
 
+    /**
+     * Agrega un teléfono al usuario.
+     * @param phone El teléfono a agregar.
+     */
     public void addPhone(Phone phone) {
         phones.add(phone);
         phone.setUser(this);
     }
 
+    /**
+     * Remueve un teléfono del usuario.
+     * @param phone El teléfono a remover.
+     */
     public void removePhone(Phone phone) {
         phones.remove(phone);
         phone.setUser(null);
     }
 
+    /**
+     * Setea el estado de activación del usuario.
+     * @param b El estado a setear.
+     */
     public void setIsActive(boolean b) {
         isActive = b;
     }
 
+    /**
+     * Mapea los atributos del DTO de usuario a un objeto usuario.
+     * @param userDTO El DTO de usuario a mapear.
+     * @return El objeto usuario mapeado.
+     */
     public User mapToUser(UserDTO userDTO) {
         User user = new User();
         user.setName(userDTO.getName());
@@ -82,4 +100,20 @@ public class User {
         user.setPhones(phones);
         return user;
     }
+
+    /**
+     * Mapea los atributos del usuario a un DTO de respuesta de usuario.
+     * @return El DTO de respuesta de usuario mapeado.
+     */
+    public UserResponseDTO mapToUserResponseDTO() {
+        return UserResponseDTO.builder()
+                .id(id)
+                .created(created)
+                .modified(modified)
+                .lastLogin(lastLogin)
+                .token(token)
+                .isActive(isActive)
+                .build();
+    }
+
 }
