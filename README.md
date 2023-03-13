@@ -7,6 +7,11 @@ API RESTful para crear usuarios utilizando Java 8+, Spring Framework, Hibernate 
 - Spring Boot
 - Hibernate
 - HSQLDB
+- 
+## Funcionalidades destacadas
+
+- Utilización de Jasypt para la persistencia encriptada del password.
+- Generación del token mediante jwt.
 
 ## Requisitos previos
 

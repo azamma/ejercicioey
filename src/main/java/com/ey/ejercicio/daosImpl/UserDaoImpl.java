@@ -1,3 +1,6 @@
+/**
+ Implementación del Data Access Object (DAO) para la entidad User
+ */
 package com.ey.ejercicio.daosImpl;
 
 import com.ey.ejercicio.daos.UserDao;

@@ -1,3 +1,7 @@
+/**
+ Implementación del Data Access Object (DAO) para la entidad Phone
+ */
+
 package com.ey.ejercicio.daosImpl;
 
 import com.ey.ejercicio.daos.PhoneDao;
@@ -8,10 +12,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
-
-/**
- Implementación del Data Access Object (DAO) para la entidad Phone
- */
 @Repository
 public class PhoneDaoImpl implements PhoneDao {
 
