@@ -18,6 +18,10 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+
+ Controlador REST para users
+ */
 @RestController
 @RequestMapping("/api/users")
 @Validated
@@ -26,12 +30,23 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    /**
+
+     Maneja la solicitud para crear un nuevo usuario.
+     @param userDTO DTO que contiene los campos del request
+     @return ResponseEntity con un objeto UserResponseDTO que representa el usuario creado.
+     */
     @PostMapping
     public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO) {
         User usuarioCreado = userService.saveUser(userDTO);
         return ResponseEntity.ok(usuarioCreado.mapToUserResponseDTO());
     }
+    /**
 
+     Maneja las excepciones relacionadas con la validación de los datos de entrada en la solicitud.
+     @param ex excepción que se produjo.
+     @return ResponseEntity con un objeto ErrorResponse que describe los campos con errores de la solicitud.
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
@@ -43,13 +58,23 @@ public class UserController {
         ErrorResponse errorResponse = new ErrorResponse("Hay uno o más campos con errores -> ".concat(errors.toString()));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
+    /**
 
+     Maneja las excepciones relacionadas con problemas de persistencia de datos.
+     @param ex excepción que se produjo.
+     @return ResponseEntity con un objeto ErrorResponse que describe el error que se produjo.
+     */
     @ExceptionHandler(PersistenceException.class)
     public ResponseEntity<ErrorResponse> handlePersistenceExceptions(PersistenceException ex) {
         ErrorResponse errorResponse = new ErrorResponse("Se produjo un error al crear el usuario -> ".concat(ex.getMessage()));
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
+    /**
 
+     Maneja cualquier excepción inesperada que se produzca durante el procesamiento de la solicitud.
+     @param ex excepción que se produjo.
+     @return ResponseEntity con un objeto ErrorResponse que describe el error que se produjo.
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleExceptions(Exception ex) {
         ErrorResponse errorResponse = new ErrorResponse("Se produjo un error inesperado -> ".concat(ex.getMessage()));

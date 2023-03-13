@@ -17,23 +17,42 @@ public class UserDaoImpl implements UserDao {
     @PersistenceContext
     private EntityManager entityManager;
 
+    /**
+     * Guarda un nuevo usuario en la base de datos
+     * @param user el usuario a guardar
+     * @return el usuario guardado
+     */
     @Override
     public User save(User user) {
         entityManager.persist(user);
         return user;
     }
 
+    /**
+     * Devuelve una lista de todos los usuarios en la base de datos
+     * @return una lista de usuarios
+     */
     @Override
     public List<User> findAll() {
         TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u", User.class);
         return query.getResultList();
     }
 
+    /**
+     * Busca un usuario por su ID
+     * @param id el ID del usuario a buscar
+     * @return el usuario encontrado o null si no existe
+     */
     @Override
     public User findById(Long id) {
         return entityManager.find(User.class, id);
     }
 
+    /**
+     * Busca un usuario por su nombre de usuario
+     * @param username el nombre de usuario a buscar
+     * @return el usuario encontrado o null si no existe
+     */
     @Override
     public User findByUsername(String username) {
         TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
@@ -41,6 +60,11 @@ public class UserDaoImpl implements UserDao {
         return query.getSingleResult();
     }
 
+    /**
+     * Busca un usuario por su token de acceso
+     * @param token el token de acceso a buscar
+     * @return el usuario encontrado o null si no existe
+     */
     @Override
     public User findByToken(String token) {
         TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.token = :token", User.class);
@@ -48,6 +72,11 @@ public class UserDaoImpl implements UserDao {
         return query.getSingleResult();
     }
 
+    /**
+     * Busca un usuario por su dirección de correo electrónico
+     * @param email la dirección de correo electrónico a buscar
+     * @return el usuario encontrado o null si no existe
+     */
     @Override
     public User findByEmail(String email) {
         String jpql = "SELECT u FROM User u WHERE u.email = :email";
@@ -57,14 +86,24 @@ public class UserDaoImpl implements UserDao {
         return users.isEmpty() ? null : users.get(0);
     }
 
+    /**
+     * Actualiza un usuario existente en la base de datos
+     * @param user el usuario a actualizar
+     * @return el usuario actualizado
+     */
     @Override
     public User update(User user) {
         return entityManager.merge(user);
     }
 
+    /**
+     * Elimina un usuario de la base de datos
+     * @param user el usuario a eliminar
+     */
     @Override
     public void delete(User user) {
         entityManager.remove(user);
     }
+
 
 }
