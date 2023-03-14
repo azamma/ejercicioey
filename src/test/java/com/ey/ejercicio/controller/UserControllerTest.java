@@ -65,7 +65,7 @@ public class UserControllerTest {
 
         Mockito.when(userService.saveUser(any(UserDTO.class))).thenReturn(createdUser);
 
-        // Ahora viene lo divertido: creamos una petición HTTP con la información del usuario que queremos crear.
+        // Creamos una petición HTTP con la información del usuario que queremos crear.
 
         String requestJson = "{\"name\": \"Jhon\", \"email\": \"Jhon@gmail.com\", \"password\": \"Password2023\", \"phones\": [{\"number\": \"1234567\",\"cityCode\": \"1\",\"countryCode\": \"57\"}]}";
 
